@@ -19,11 +19,11 @@ const resolvers = {
         },
     },
     Mutation: {
-        addProfiles: async (parent, {username, email, password}) => {
+        addUser: async (parent, {username, email, password}) => {
             const user = User.create({username, email, password});
             const token = signToken(user);
 
-            return {token, profile};
+            return {token, user};
         },
         login: async (parent, {email, password}) => {
             const user = await User.findOne({email});
@@ -38,7 +38,7 @@ const resolvers = {
                 throw new AuthenticationError('Incorrect Password')
             }
 
-            const token = signToken(profile);
+            const token = signToken(user);
             return { token, user} ;
         },
         //save book
